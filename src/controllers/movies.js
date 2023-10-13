@@ -25,7 +25,7 @@ const addMovies = (request, response) => {
 
   pool.query(
     `INSERT INTO movies ("title", "genres", "year") VALUES ($1, $2, $3);`,
-    [req.body.title, req.body.genres, req.body.year],
+    [request.body.title, request.body.genres, request.body.year],
     (error, results) => {
       if (error) {
         throw error;
