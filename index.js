@@ -1,5 +1,5 @@
 const express = require('express')
-const bodyParser = require("body-parser")
+// const bodyParser = require("body-parser")
 const jwt = require("jsonwebtoken");
 const app = express()
 
@@ -29,11 +29,11 @@ const options = {
 
 const specs = swaggerJsdoc(options)
 app.use(morgan("tiny"))
+app.use(express.json());
 app.use(router, swaggerUi.serve, swaggerUi.setup(specs))
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = process.env.PORT
 app.listen(port, () => console.log(`server is running in port ${port}...`))

@@ -10,7 +10,7 @@ const getMovies = (request, response) => {
 };
 
 const getMoviesId = (request, response) => {
-  const id = request.params.id
+  const id = request.params.id;
   pool.query(`SELECT * FROM movies WHERE id = ${id}`, (error, result) => {
     if (error) {
       throw error;
@@ -20,17 +20,17 @@ const getMoviesId = (request, response) => {
 };
 
 const addMovies = (request, response) => {
-  // const { title, genres, year } = request.body;
+  const { title, genres, year } = request.body;
   // console.log(request.body)
 
   pool.query(
-    `INSERT INTO movies ("title", "genres", "year") VALUES ($1, $2, $3);`,
-    [request.body.title, request.body.genres, request.body.year],
+    `INSERT INTO movies (title, genres, year) VALUES ($1, $2, $3);`,
+    [title, genres, year],
     (error, results) => {
       if (error) {
         throw error;
       }
-      res.status(201).json({
+      response.status(201).json({
         status: "success",
       });
     }
@@ -53,18 +53,16 @@ const updateMovies = (request, response) => {
   );
 };
 
-
 const deleteMovies = (request, response) => {
-  const id = request.params.id
+  const id = request.params.id;
 
   pool.query(`DELETE FROM movies WHERE id = $1`, [id], (error, result) => {
     if (error) {
-      throw error
+      throw error;
     }
-    response.status(200).send(`Movies delete with ID: ${id}`)
-  } )
-}
-
+    response.status(200).send(`Movies delete with ID: ${id}`);
+  });
+};
 
 module.exports = {
   getMovies,
