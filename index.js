@@ -1,8 +1,7 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const jwt = require("jsonwebtoken");
 const app = express()
-
-
 
 const morgan = require('morgan')
 const router = require('./src/routes/index.js')
@@ -30,6 +29,7 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 app.use(morgan("tiny"));
+app.use(express.json());
 app.use(router, swaggerUi.serve, swaggerUi.setup(specs, {explorer: true}));
 
 

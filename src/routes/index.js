@@ -36,7 +36,7 @@
  *    description: The Movies managing API
  * /movies:
  *   get:
- *     summary: Get all roles
+ *     summary: Get all Movies
  *     tags: [Movies]
  *     responses:
  *       200:
@@ -49,6 +49,87 @@
  *                $ref: '#/components/schemas/Movies'
  *       500:
  *        description: Something went wrong
+ *   post:
+ *     summary: Create a new Movies
+ *     tags: [Movies]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Movies'
+ *     responses:
+ *       200:
+ *         description: The created movies.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Movies'
+ *       500:
+ *         description: Some server error
+ * /movies/{id}:
+ *   get:
+ *     summary: Get the book by id
+ *     tags: [Movies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The Movies id
+ *     responses:
+ *       200:
+ *         description: The movies
+ *  response by id *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Movies'
+ *       404:
+ *         description: The movies was not found
+ *   put:
+ *    summary: Update the movies by the id
+ *    tags: [Movies]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The movies id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Movies'
+ *    responses:
+ *      200:
+ *        description: The movies was updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Movies'
+ *      404:
+ *        description: The movies was not found
+ *      500:
+ *        description: Some error happened
+ *   delete:
+ *     summary: Remove the movies by id
+ *     tags: [Movies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The movies id
+ *
+ *     responses:
+ *       200:
+ *         description: The movies was deleted
+ *       404:
+ *         description: The movies was not found
  */
 
 const router = require("express").Router();
