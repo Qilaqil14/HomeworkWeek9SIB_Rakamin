@@ -1,12 +1,19 @@
 const pool = require("../config/database.js");
 
+const auth = require('../middleware/authMiddleware.js')
+
 const getMovies = (request, response) => {
-  pool.query("SELECT * FROM movies", (error, result) => {
-    if (error) {
-      throw error;
+  pool.query(
+    `SELECT * FROM movies ${
+      request.query.limit ? "LIMIT " + request.query.limit : ""
+    } `,
+    (error, result) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(result.rows);
     }
-    response.status(200).json(result.rows);
-  });
+  );
 };
 
 const getMoviesId = (request, response) => {
@@ -20,12 +27,11 @@ const getMoviesId = (request, response) => {
 };
 
 const addMovies = (request, response) => {
-  const { title, genres, year } = request.body;
-  // console.log(request.body)
+  const {id, title, genres, year } = request.body;
 
   pool.query(
-    `INSERT INTO movies (title, genres, year) VALUES ($1, $2, $3);`,
-    [title, genres, year],
+    `INSERT INTO movies (id, title, genres, year) VALUES ($1, $2, $3, $4);`,
+    [id, title, genres, year],
     (error, results) => {
       if (error) {
         throw error;
