@@ -2,7 +2,7 @@ const pool = require("../config/database.js");
 
 const auth = require('../middleware/authMiddleware.js')
 
-const getMovies = (request, response) => {
+const getMovies =  (request, response) => {
   pool.query(
     `SELECT * FROM movies ${
       request.query.limit ? "LIMIT " + request.query.limit : ""

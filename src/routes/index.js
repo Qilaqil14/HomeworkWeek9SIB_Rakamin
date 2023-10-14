@@ -31,6 +31,27 @@
 
 /**
  * @swagger
+ * components:
+ *    schemas:
+ *      Users:
+ *        type: object
+ *        required:
+ *          - email
+ *          - password
+ *        properties:
+ *          email:
+ *            type: string
+ *            description: Email.
+ *          password:
+ *            type: string
+ *            description: Password.
+ *        example:
+ *          email: said@gmail.com
+ *          password: suiky5
+ */
+
+/**
+ * @swagger
  * tags:
  *    name: Movies
  *    description: The Movies managing API
@@ -80,8 +101,8 @@
  *         description: The Movies id
  *     responses:
  *       200:
- *         description: The movies
- *  response by id *         contens:
+ *         description: The movies response by id
+ *         contens:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Movies'
@@ -132,8 +153,31 @@
  *         description: The movies was not found
  */
 
+/**
+ * @swagger
+ * tags:
+ *    name: Users
+ *    description: The Users managing API
+ * /users:
+ *   get:
+ *     summary: Get all Users
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Get all Users.
+ *         content:
+ *           application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Users'
+ *       500:
+ *        description: Something went wrong
+ */
+
 const router = require("express").Router();
 const jwt = require('jsonwebtoken')
+const authMiddleware = require("../middleware/authMiddleware");
 require("dotenv")
 const {
   getMovies,
@@ -143,7 +187,7 @@ const {
   deleteMovies,
   getMoviesPagination,
 } = require("../controllers/movies");
-const { getUsers, postUsers } = require("../controllers/users");
+const { getUsers, registerUser,loginUser } = require("../controllers/user");
 
 router.route("/movies").get(getMovies);
 router.route("/movies/:id").get(getMoviesId);
@@ -152,6 +196,7 @@ router.route("/movies/:id").put(updateMovies);
 router.route("/movies/:id").delete(deleteMovies);
 
 router.route("/users").get(getUsers);
-router.route("/login").post(postUsers);
+router.route("/register").post(registerUser);
+router.route("/login").post(loginUser);
 
 module.exports = router;

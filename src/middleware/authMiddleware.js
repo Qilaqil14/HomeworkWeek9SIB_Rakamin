@@ -1,17 +1,23 @@
-const { verifyToken } = require('../utils/auth');
+const { verifyToken } = require("../utils/auth.js"); // Anda perlu mengganti ini dengan logika sesuai kebutuhan
 
-const authMiddleware = (req, res, next) => {
-  // console.log(data);
-  const beareHeader = req.headers['authorization'];
+const authenticateUser = (request, response, next) => {
+  const token = request.headers.authorization; // Anda perlu menyesuaikan ini dengan cara Anda mengirim token
 
-  const token = beareHeader.split(' ')[1];
-  const data = verifyToken(token);
-
-  if (data.role === 'Construction Worker') {
-    next();
-  } else {
-    res.status(401).json({ message: 'Unauthorized' });
+  if (!token) {
+    return response.status(401).json({ error: "Unauthorized" });
   }
+
+  // Verifikasi token
+  verifyToken(token, (err, decoded) => {
+    if (err) {
+      return response.status(401).json({ error: "Unauthorized" });
+    }
+
+    request.user = decoded; // Setel informasi pengguna ke dalam objek permintaan
+    next();
+  });
 };
 
-module.exports = authMiddleware;
+module.exports = {
+  authenticateUser,
+};
