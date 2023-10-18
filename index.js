@@ -29,7 +29,11 @@ const options = {
 };
 const specs = swaggerJsdoc(options);
 
-app.use(morgan("tiny"));
+
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms")
+);
 app.use(express.json());
 app.use(router, swaggerUi.serve, swaggerUi.setup(specs, {explorer: true}));
 
